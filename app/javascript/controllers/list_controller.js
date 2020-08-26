@@ -4,15 +4,22 @@ export default class extends Controller {
   static targets = ["items"];
 
   connect() {
-    let shoppingListItems =
-      localStorage.getItem("shoppingListItems") ||
-      localStorage.setItem("shoppingListItems", JSON.stringify([]));
+    this.initializeLocalStorage();
+    this.renderItems();
+  }
 
-    shoppingListItems = JSON.parse(shoppingListItems);
+  openForm() {
+    window.open("/list/new", "newForm", "width=600,height=400");
+  }
 
-    // shoppingListItems = ["Kiwi", "Cereal", "Milk"];
+  initializeLocalStorage() {
+    if (localStorage.getItem("shoppingListItems") === null) {
+      this.shoppingListItems = JSON.stringify([]);
+    }
+  }
 
-    if (shoppingListItems.length === 0) {
+  renderItems() {
+    if (this.shoppingListItems.length === 0) {
       const emptyMessageEl = document.createElement("div");
       emptyMessageEl.classList.add("text-gray-500");
       emptyMessageEl.innerText =
@@ -22,7 +29,7 @@ export default class extends Controller {
     } else {
       const list = document.createElement("ul");
 
-      shoppingListItems.forEach((item, idx) => {
+      this.shoppingListItems.forEach((item) => {
         const listItem = document.createElement("li");
         listItem.classList.add("pb-1");
 
@@ -42,7 +49,12 @@ export default class extends Controller {
     }
   }
 
-  openForm() {
-    window.open("/list/new", "newForm", "width=600,height=400");
+  get shoppingListItems() {
+    return JSON.parse(localStorage.getItem("shoppingListItems"));
+    // return ["Kiwi", "Cereal", "Milk"];
+  }
+
+  set shoppingListItems(value) {
+    localStorage.setItem("shoppingListItems", value);
   }
 }
