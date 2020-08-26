@@ -3,7 +3,9 @@ import { Controller } from "stimulus";
 export default class extends Controller {
   static targets = ["item"];
 
-  addNewItem() {
+  addNewItem(event) {
+    event.preventDefault();
+
     if (this.itemTarget.value === "") {
       // Error message in form
       console.log("Please enter an item to add to your shopping list.");
@@ -35,6 +37,7 @@ export default class extends Controller {
     }).then((response) => {
       if (response.status === 201) {
         this.itemTarget.value = "";
+        this.itemTarget.focus();
         // Success message in form
       } else {
         // Error message in form
@@ -48,6 +51,5 @@ export default class extends Controller {
 
   get shoppingListItems() {
     return JSON.parse(localStorage.getItem("shoppingListItems"));
-    // return ["Kiwi", "Cereal", "Milk"];
   }
 }
