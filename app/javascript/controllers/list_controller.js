@@ -1,4 +1,5 @@
 import { Controller } from "stimulus";
+import { v4 as uuidv4 } from "uuid";
 
 export default class extends Controller {
   static targets = ["items"];
@@ -13,7 +14,11 @@ export default class extends Controller {
   }
 
   initializeLocalStorage() {
-    if (localStorage.getItem("shoppingListItems") === null) {
+    if (this.shoppingListId === null) {
+      this.shoppingListId = uuidv4();
+    }
+
+    if (this.shoppingListItems === null) {
       this.shoppingListItems = JSON.stringify([]);
     }
   }
@@ -50,11 +55,23 @@ export default class extends Controller {
   }
 
   get shoppingListItems() {
+    if (localStorage.getItem("shoppingListItems") === null) {
+      return null;
+    }
+
     return JSON.parse(localStorage.getItem("shoppingListItems"));
     // return ["Kiwi", "Cereal", "Milk"];
   }
 
   set shoppingListItems(value) {
     localStorage.setItem("shoppingListItems", value);
+  }
+
+  get shoppingListId() {
+    return localStorage.getItem("shoppingListId");
+  }
+
+  set shoppingListId(id) {
+    return localStorage.setItem("shoppingListId", id);
   }
 }
