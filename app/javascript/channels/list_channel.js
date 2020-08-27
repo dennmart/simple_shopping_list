@@ -22,6 +22,8 @@ consumer.subscriptions.create(
 
       const listCheckbox = document.createElement("input");
       listCheckbox.setAttribute("type", "checkbox");
+      listCheckbox.setAttribute("value", data);
+      listCheckbox.setAttribute("data-action", "list#completed");
       listCheckbox.classList.add("mr-2");
       listItem.appendChild(listCheckbox);
 

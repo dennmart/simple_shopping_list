@@ -40,6 +40,8 @@ export default class extends Controller {
 
         const listCheckbox = document.createElement("input");
         listCheckbox.setAttribute("type", "checkbox");
+        listCheckbox.setAttribute("value", item);
+        listCheckbox.setAttribute("data-action", "list#completed");
         listCheckbox.classList.add("mr-2");
         listItem.appendChild(listCheckbox);
 
@@ -54,13 +56,34 @@ export default class extends Controller {
     }
   }
 
+  completed(event) {
+    const checkbox = event.target;
+
+    const updatedList = this.shoppingListItems.filter(
+      (item) => item !== checkbox.value
+    );
+    this.shoppingListItems = JSON.stringify(updatedList);
+    checkbox.setAttribute("disabled", "disabled");
+
+    // Find span sibling and change classname (strikethrough, text gray)
+    checkbox.nextSibling.classList.add("line-through", "text-gray-300");
+    checkbox.parentElement.classList.add(
+      "transition",
+      "duration-1000",
+      "opacity-0"
+    );
+
+    setTimeout(() => {
+      checkbox.parentElement.remove();
+    }, 1000);
+  }
+
   get shoppingListItems() {
     if (localStorage.getItem("shoppingListItems") === null) {
       return null;
     }
 
     return JSON.parse(localStorage.getItem("shoppingListItems"));
-    // return ["Kiwi", "Cereal", "Milk"];
   }
 
   set shoppingListItems(value) {
