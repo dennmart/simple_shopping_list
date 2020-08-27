@@ -45,6 +45,10 @@ export default class extends Controller {
     });
   }
 
+  closeWindow() {
+    window.close();
+  }
+
   get shoppingListId() {
     return localStorage.getItem("shoppingListId");
   }
