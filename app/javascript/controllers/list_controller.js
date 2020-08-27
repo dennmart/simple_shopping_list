@@ -37,7 +37,8 @@ export default class extends Controller {
     const emptyMessageEl = document.createElement("div");
     emptyMessageEl.classList.add(
       "p-4",
-      "text-xl",
+      "text-base",
+      "lg:text-xl",
       "text-center",
       "font-bold",
       "text-gray-900"
