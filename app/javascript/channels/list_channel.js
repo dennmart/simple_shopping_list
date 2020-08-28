@@ -1,11 +1,20 @@
+import { v4 as uuidv4 } from "uuid";
 import consumer from "./consumer";
+
+const channelId = localStorage.getItem("shoppingListId") || uuidv4();
 
 consumer.subscriptions.create(
   {
     channel: "ListChannel",
-    id: localStorage.getItem("shoppingListId"),
+    id: channelId
   },
   {
+    initialized() {
+      if (localStorage.getItem("shoppingListId") === null) {
+        localStorage.setItem("shoppingListId", channelId);
+      }
+    },
+
     received(data) {
       const list = document.getElementById("shopping_list");
 

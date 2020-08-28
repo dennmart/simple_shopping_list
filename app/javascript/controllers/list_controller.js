@@ -1,5 +1,4 @@
 import { Controller } from "stimulus";
-import { v4 as uuidv4 } from "uuid";
 
 export default class extends Controller {
   static targets = ["items", "itemList"];
@@ -19,10 +18,6 @@ export default class extends Controller {
   }
 
   initializeLocalStorage() {
-    if (this.shoppingListId === null) {
-      this.shoppingListId = uuidv4();
-    }
-
     if (this.shoppingListItems === null) {
       this.shoppingListItems = JSON.stringify([]);
     }
@@ -126,6 +121,6 @@ export default class extends Controller {
   }
 
   set shoppingListId(id) {
-    return localStorage.setItem("shoppingListId", id);
+    localStorage.setItem("shoppingListId", id);
   }
 }
